@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_end.c                                         :+:      :+:    :+:   */
+/*   check_argv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/04 16:01:42 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/12 14:37:42 by hbelle           ###   ########.fr       */
+/*   Created: 2024/01/12 14:57:54 by hbelle            #+#    #+#             */
+/*   Updated: 2024/01/12 15:36:59 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-void	free_end(t_pipex *p)
+int	check_argv(char **argv)
 {
-	int	i;
+	char tmp[6] = "file1";
+	char tmp2[6] = "file2";
 
-	i = 0;
-	while (p->cmd1[i])
-		free(p->cmd1[i++]);
-	i = 0;
-	while (p->cmd2[i])
-		free(p->cmd2[i++]);
-	if (p->tmp)
-		free(p->tmp);
-	if (p->cmd1)
-		free(p->cmd1);
-	if (p->cmd2)
-		free(p->cmd2);
-	exit(0);
+	if ((ft_strcmp(argv[1], tmp) == 0) && (ft_strcmp(argv[4], tmp2) == 0))
+		return (0);
+	else
+		return (1);
 }

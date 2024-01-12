@@ -6,7 +6,7 @@
 #    By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 17:52:23 by hbelle            #+#    #+#              #
-#    Updated: 2024/01/11 14:06:53 by hbelle           ###   ########.fr        #
+#    Updated: 2024/01/12 14:59:55 by hbelle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME	=	pipex
 SRCS	=	main.c \
 		srcs/utils/free_end.c \
 		srcs/data/found_cmd_path.c \
+		srcs/parse/check_argv.c \
 
 	
 OBJ_DIR = .o
