@@ -6,13 +6,20 @@
 #    By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 17:52:23 by hbelle            #+#    #+#              #
-#    Updated: 2024/01/12 14:59:55 by hbelle           ###   ########.fr        #
+#    Updated: 2024/01/12 18:06:10 by hbelle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	pipex
 
-SRCS	=	main.c \
+NAME_BONUS	=	pipex_bonus
+
+SRCS	=	main_manda.c \
+		srcs/utils/free_end.c \
+		srcs/data/found_cmd_path.c \
+		srcs/parse/check_argv.c \
+
+SRCS_BONUS = main_bonus.c \
 		srcs/utils/free_end.c \
 		srcs/data/found_cmd_path.c \
 		srcs/parse/check_argv.c \
@@ -20,7 +27,10 @@ SRCS	=	main.c \
 	
 OBJ_DIR = .o
 OBJTS = $(addprefix $(OBJ_DIR)/, $(SRCS:%.c=%.o))
+OBJTS_BONUS = $(addprefix $(OBJ_DIR)/, $(SRCS_BONUS:%.c=%.o))
 LIBFT	=	libft/libft.a
+
+COMPILE_OK = "✅"
 
 RM	=	rm -f
 HEADER =	-I includes
@@ -33,7 +43,7 @@ $(OBJ_DIR)/%.o: %.c
 	@cc $(CFLAGS) $(HEADER) -c  $< -o $@
 	@if test -s $*.c; then \
 			echo "\033[01m\033[35m Compiling $(DEBUG)\033[00m\
-			\033[36m$(SRCPATH)$*.c\033[032m  [OK]\033[00m";\
+			\033[36m$(SRCPATH)$*.c\033[032m  [OK] $(COMPILE_OK)\0\033[00m";\
 			else \
 			echo "\033[01m\033[33m Compiling $(DEBUG)\033[00m\
 			\033[36m$(SRCPATH)$*.c\033[00m\  [Error]"; fi
@@ -47,13 +57,17 @@ $(LIBFT):
 
 all:	${NAME}
 
+bonus: $(OBJTS_BONUS) $(LIBFT)
+	@cc -o $(NAME_BONUS) $(OBJTS_BONUS) $(LIBS) $(CFLAGS) $(HEADER)
+	@echo "\033[01m\033[4;33mCompilation done\033[00m\033[1;31m -->\033[00m\033[1;32m ${NAME_BONUS}\033[00m"
+
 clean:
-	${RM} -r $(OBJ_DIR)
-	echo "\033[01m\033[31mRemoving objects ...\033[00m"
-	@make -C libft/ fclean
+	@${RM} -r $(OBJ_DIR) 
+	@echo "\033[01m\033[31mRemoving objects ...\033[00m"
+	@make -C libft/ fclean -s
 
 fclean:	clean
-	${RM} ${NAME}
+	@${RM} ${NAME} ${NAME_BONUS}
 	@echo "\033[01m\033[31mRemoving exec : ${NAME} ...\033[00m"
 
 re:	fclean $(LIBFT) all

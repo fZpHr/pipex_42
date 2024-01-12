@@ -6,7 +6,7 @@
 #    By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 17:52:23 by hbelle            #+#    #+#              #
-#    Updated: 2024/01/11 12:28:12 by hbelle           ###   ########.fr        #
+#    Updated: 2024/01/12 16:10:31 by hbelle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,28 +78,22 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 .c.o:
 	@${CC} ${CFLAGS} -I includes -c $< -o ${<:.c=.o}
-	@if test -s $*.c; then \
-			echo "\033[01m\033[35m Compiling $(DEBUG)\033[00m\
-			\033[36m$(SRCPATH)$*.c\033[032m  [OK]\033[00m";\
-			else \
-			echo "\033[01m\033[33m Compiling $(DEBUG)\033[00m\
-			\033[36m$(SRCPATH)$*.c\033[00m\  [Error]"; fi
 
 $(NAME): ${OBJTS}
-		@ar rcs ${NAME} ${OBJTS}
+		ar rcs ${NAME} ${OBJTS}
 		@echo "\033[01m\033[4;33mCompilation done\033[00m\033[1;31m -->\033[00m\033[1;32m ${NAME}\033[00m"
-
+		
 all:	${NAME}
 	@echo "\033[01m\033[31mLinking ...\033[00m"
 	@$(CC) $(OBJ) -o $(NAME) $(CFLAGS)
 	@echo "\033[01m\033[32mCompilation done => ${NAME}\033[00m"
 clean:
-	${RM} ${OBJTS}
+	@${RM} ${OBJTS}
 	@echo "\033[01m\033[31mRemoving objects ...\033[00m"
 
 fclean:	clean
-	${RM} ${NAME}
-	@echo "\033[01m\033[31mRemoving binary : ${NAME} ...\033[00m"
+	@${RM} ${NAME}
+	@echo "\033[01m\033[31mRemoving exec : ${NAME} ...\033[00m"
 
 re:	fclean all
 

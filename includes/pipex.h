@@ -6,7 +6,7 @@
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:58:21 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/12 14:59:40 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/12 18:18:17 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPEX_H
 
 # include "../libft/libft.h"
+# include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
@@ -23,11 +24,7 @@ typedef struct s_pipex
 	char	**cmd2;
 	char	**envp;
 	char	*tmp;
-	char	*path;
-	char	**path_split;
-	char	*cmd_path;
-	char	*cmd_path_tmp;
-	int		i;
+	int		ac;
 
 }			t_pipex;
 
