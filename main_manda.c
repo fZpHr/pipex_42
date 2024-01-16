@@ -6,7 +6,7 @@
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:41:24 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/12 17:08:18 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/16 19:38:58 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	child_process(t_pipex *p, int pipe_fd[2], int fd[2], char **envp)
 	p->tmp = found_cmd(envp, p->cmd1[0]);
 	if (p->tmp)
 		execve(p->tmp, p->cmd1, envp);
+	close(pipe_fd[1]);
 	free_end(p);
 }
 
@@ -37,6 +38,7 @@ void	parent_process(t_pipex *p, int pipe_fd[2], int fd[2], char **envp)
 	p->tmp = found_cmd(envp, p->cmd2[0]);
 	if (p->tmp)
 		execve(p->tmp, p->cmd2, envp);
+	close(pipe_fd[0]);
 	free_end(p);
 }
 
@@ -44,7 +46,7 @@ void	pipex(t_pipex *p, char **argv, char **envp)
 {
 	int		pipe_fd[2];
 	int		fd[2];
-	pid_t	pid;
+	int		pid;
 
 	p->cmd1 = ft_split(argv[2], ' ');
 	p->cmd2 = ft_split(argv[3], ' ');
@@ -61,12 +63,17 @@ void	pipex(t_pipex *p, char **argv, char **envp)
 		child_process(p, pipe_fd, fd, envp);
 	else
 		parent_process(p, pipe_fd, fd, envp);
+	close(fd[0]);
+    close(fd[1]);
+    close(pipe_fd[0]);
+    close(pipe_fd[1]);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	p;
 
+	init(&p);
 	if (argc != 5 || check_argv(argv) > 0)
 	{
 		if (check_argv(argv) == 2 && argc == 2)

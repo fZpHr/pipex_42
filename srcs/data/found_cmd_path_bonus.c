@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   found_cmd_path.c                                   :+:      :+:    :+:   */
+/*   found_cmd_path_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:08:12 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/16 19:37:18 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/16 19:40:40 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,20 @@ char	*loop_found_cmd(char **path_split, char *path, char *cmd)
 	return (NULL);
 }
 
-char	*found_cmd(char **envp, char *cmd)
+char	*found_cmd_bonus(t_pipex *p, char **envp, char *cmd)
 {
 	char	*path;
 	char	**path_split;
 	char	*res;
 
+	p->cmd1 = ft_split(cmd, ' ');
 	path = found_path(envp);
 	if (!path)
 		return (NULL);
 	path_split = ft_split(path, ':');
 	if (!path_split)
 		return (NULL);
-	res = loop_found_cmd(path_split, path, cmd);
+	res = loop_found_cmd(path_split, path, p->cmd1[0]);
 	if (res)
 		return (res);
 	return (NULL);

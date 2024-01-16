@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_argv.c                                       :+:      :+:    :+:   */
+/*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 14:57:54 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/16 18:22:33 by hbelle           ###   ########.fr       */
+/*   Created: 2024/01/16 14:36:39 by hbelle            #+#    #+#             */
+/*   Updated: 2024/01/16 19:29:47 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-int	check_argv(char **argv)
+void	init(t_pipex *p)
 {
-	if (argv[1])
-	{
-		if (access(argv[1], F_OK | R_OK) == 0)
-			return (0);
-		else
-			return (2);
-	}
-	return (1);
+	p->cmd1 = NULL;
+	p->cmd2 = NULL;
+	p->envp = NULL;
+	p->tmp = NULL;
+	p->ac = 0;
+	p->tmp_end = NULL;
+	p->tmp_child = NULL;
 }

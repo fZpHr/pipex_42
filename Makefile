@@ -6,7 +6,7 @@
 #    By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 17:52:23 by hbelle            #+#    #+#              #
-#    Updated: 2024/01/12 18:06:10 by hbelle           ###   ########.fr        #
+#    Updated: 2024/01/16 19:39:18 by hbelle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,14 @@ SRCS	=	main_manda.c \
 		srcs/utils/free_end.c \
 		srcs/data/found_cmd_path.c \
 		srcs/parse/check_argv.c \
+		srcs/utils/init.c \
 
 SRCS_BONUS = main_bonus.c \
 		srcs/utils/free_end.c \
-		srcs/data/found_cmd_path.c \
+		srcs/data/found_cmd_path_bonus.c \
 		srcs/parse/check_argv.c \
+		srcs/utils/error_bonus.c \
+		srcs/utils/init.c \
 
 	
 OBJ_DIR = .o
