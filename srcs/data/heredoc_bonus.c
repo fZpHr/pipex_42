@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 00:26:04 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/17 15:02:43 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:41:34 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	heredoc(t_pipex *p, char *end)
 	int	pid;
 
 	if (pipe(fd) == -1)
-		handle_error(p, "Error --> pipe", "");
+		handle_error(p, "Error --> pipe", "", 1);
 	pid = fork();
+	if (pid == -1)
+		handle_error(p, "Error --> fork", "", 1);
 	if (pid == 0)
 		infinite_loop(fd, end);
 	else

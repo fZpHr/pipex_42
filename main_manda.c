@@ -6,7 +6,7 @@
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:41:24 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/17 16:18:48 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:40:42 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	child_process(t_pipex *p, int pipe_fd[2], int fd[2], char **envp)
 		close(pipe_fd[1]);
 		p->exec = execve(p->tmp, p->cmd1, envp);
 		if (p->exec == -1)
-			handle_error(p, "Error --> execve", p->cmd2[0]);
+			handle_error(p, "Error --> execve", p->cmd2[0], 126);
 		free_end(p, 127);
 	}
 	else
 	{
-		handle_error(p, "pipex: command not found: ", p->cmd1[0]);
+		handle_error(p, "pipex: command not found: ", p->cmd1[0], 127);
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
 		close(fd[0]);
@@ -54,12 +54,12 @@ void	parent_process(t_pipex *p, int pipe_fd[2], int fd[2], char **envp)
 		close(pipe_fd[0]);
 		p->exec = execve(p->tmp, p->cmd2, envp);
 		if (p->exec == -1)
-			handle_error(p, "Error --> execve", p->cmd2[0]);
+			handle_error(p, "Error --> execve", p->cmd2[0], 126);
 		free_end(p, 127);
 	}
 	else
 	{
-		handle_error(p, "pipex: command not found: %s\n", p->cmd2[0]);
+		handle_error(p, "pipex: command not found: %s\n", p->cmd2[0], 127);
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
 		close(fd[0]);
@@ -103,8 +103,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5 || check_argv(argv) > 0)
 	{
 		if (check_argv(argv) == 2)
-			handle_error(&p, "", argv[1]);
-		handle_error(&p, "Usage: ./pipex file1 cmd1 cmd2 file2\n", "");
+			handle_error(&p, "", argv[1], 1);
+		handle_error(&p, "Usage: ./pipex file1 cmd1 cmd2 file2\n", "", 2);
 		return (0);
 	}
 	else

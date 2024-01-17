@@ -6,7 +6,7 @@
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:58:21 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/17 16:00:51 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:40:01 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_pipex
 }			t_pipex;
 
 void		free_end(t_pipex *p, int status);
-void		handle_error(t_pipex *p, char *str, char *argv);
+void		handle_error(t_pipex *p, char *str, char *argv, int status);
 char		*found_cmd_bonus(t_pipex *p, char **envp, char *cmd);
 char		*found_cmd(char **envp, char *cmd);
 int			check_argv(char **argv);
