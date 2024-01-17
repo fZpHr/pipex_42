@@ -1,2 +1,2 @@
- [Some title here](https://cdn.intra.42.fr/pdf/pdf/118146/fr.subject.pdf)
-[embed]https://cdn.intra.42.fr/pdf/pdf/118146/fr.subject.pdf[/embed]
+ [Sujet](https://cdn.intra.42.fr/pdf/pdf/118146/fr.subject.pdf)
+
