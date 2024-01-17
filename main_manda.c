@@ -6,7 +6,7 @@
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:41:24 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/17 16:40:42 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:57:40 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	child_process(t_pipex *p, int pipe_fd[2], int fd[2], char **envp)
 		close(pipe_fd[1]);
 		p->exec = execve(p->tmp, p->cmd1, envp);
 		if (p->exec == -1)
-			handle_error(p, "Error --> execve", p->cmd2[0], 126);
+			handle_error(p, "pipex: error execve", p->cmd2[0], 126);
 		free_end(p, 127);
 	}
 	else
@@ -54,12 +54,12 @@ void	parent_process(t_pipex *p, int pipe_fd[2], int fd[2], char **envp)
 		close(pipe_fd[0]);
 		p->exec = execve(p->tmp, p->cmd2, envp);
 		if (p->exec == -1)
-			handle_error(p, "Error --> execve", p->cmd2[0], 126);
+			handle_error(p, "pipex: error execve", p->cmd2[0], 126);
 		free_end(p, 127);
 	}
 	else
 	{
-		handle_error(p, "pipex: command not found: %s\n", p->cmd2[0], 127);
+		handle_error(p, "pipex: command not found: \n", p->cmd2[0], 127);
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
 		close(fd[0]);

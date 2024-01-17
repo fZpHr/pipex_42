@@ -6,7 +6,7 @@
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 16:01:42 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/17 16:19:47 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:43:25 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	error_status(int status)
 		exit(0);
 	else if (status == 1)
 		exit(1);
+	else if (status == 2)
+		exit(2);
+	else if (status == 126)
+		exit(126);
 	else if (status == 127)
 		exit(127);
 }
