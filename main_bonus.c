@@ -11,11 +11,6 @@
 /* ************************************************************************** */
 
 #include "includes/pipex.h"
-#include <errno.h>
-#include <error.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 void	end(t_pipex *p, char *out, char *cmd, char **envp)
 {
@@ -28,7 +23,7 @@ void	end(t_pipex *p, char *out, char *cmd, char **envp)
 	dup2(fd, 1);
 	close(fd);
 	p->tmp_end = found_cmd_bonus(p, envp, cmd);
-	if (!p->tmp)
+	if (!p->tmp_end)
 		handle_error(p,"Command not found", cmd);
 	p->cmd1 = ft_split(cmd, ' ');
 	exec = execve(p->tmp_end, p->cmd1, envp);
@@ -46,22 +41,24 @@ void	begin(t_pipex *p, char *in)
 	dup2(fd, 0);
 	close(fd);
 }
+
 void	child_process(t_pipex *p, int fd[2], char **envp, char *cmd)
 {
 	int	exec;
 
 	exec = 0;
-	close(fd[0]);
-	dup2(fd[1], 1);
-	close(fd[1]);
 	p->tmp_child = found_cmd_bonus(p, envp, cmd);
 	if (!p->tmp_child)
 		handle_error(p,"Command not found ", cmd);
+	close(fd[0]);
+	dup2(fd[1], 1);
+	close(fd[1]);
 	p->cmd1 = ft_split(cmd, ' ');
 	exec = execve(p->tmp_child, p->cmd1, envp);
 	if (exec == -1)
 		handle_error(p,"Error --> execve", cmd);
 }
+
 void	pipex(t_pipex *p, char *cmd, char **envp)
 {
 	int		fd[2];
@@ -94,6 +91,11 @@ int	main(int argc, char **argv, char **envp)
 	{
 		handle_error(&p,"Usage: ./pipex *existing file input* cmd1 cmd2 ... *name the file output*\n", argv[1]);
 		return (0);
+	}
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		i = 3;
+		heredoc(&p, argv[2]);
 	}
 	else
 		begin(&p, argv[1]);

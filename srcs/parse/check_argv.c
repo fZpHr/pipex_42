@@ -16,7 +16,7 @@ int	check_argv(char **argv)
 {
 	if (argv[1])
 	{
-		if (access(argv[1], F_OK | R_OK) == 0)
+		if (access(argv[1], F_OK | R_OK) == 0 || ft_strncmp(argv[1], "here_doc", 8) == 0)
 			return (0);
 		else
 			return (2);

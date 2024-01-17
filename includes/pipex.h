@@ -18,6 +18,11 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <stdio.h>
+# include <errno.h>
+# include <error.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 typedef struct s_pipex
 {
@@ -37,5 +42,6 @@ char		*found_cmd_bonus(t_pipex *p, char **envp, char *cmd);
 char		*found_cmd(char **envp, char *cmd);
 int			check_argv(char **argv);
 void		init(t_pipex *p);
+void		heredoc(t_pipex *p, char *end);
 
 #endif

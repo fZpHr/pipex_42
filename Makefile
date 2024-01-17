@@ -26,6 +26,7 @@ SRCS_BONUS = main_bonus.c \
 		srcs/parse/check_argv.c \
 		srcs/utils/error_bonus.c \
 		srcs/utils/init.c \
+		srcs/data/heredoc.c \
 
 	
 OBJ_DIR = .o
