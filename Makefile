@@ -6,7 +6,7 @@
 #    By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 17:52:23 by hbelle            #+#    #+#              #
-#    Updated: 2024/01/12 18:06:10 by hbelle           ###   ########.fr        #
+#    Updated: 2024/01/17 15:16:38 by hbelle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,18 @@ NAME_BONUS	=	pipex_bonus
 
 SRCS	=	main_manda.c \
 		srcs/utils/free_end.c \
+		srcs/utils/error.c \
 		srcs/data/found_cmd_path.c \
 		srcs/parse/check_argv.c \
+		srcs/utils/init.c \
 
 SRCS_BONUS = main_bonus.c \
 		srcs/utils/free_end.c \
-		srcs/data/found_cmd_path.c \
+		srcs/data/found_cmd_path_bonus.c \
 		srcs/parse/check_argv.c \
+		srcs/utils/error.c \
+		srcs/utils/init.c \
+		srcs/data/heredoc_bonus.c \
 
 	
 OBJ_DIR = .o
@@ -64,7 +69,7 @@ bonus: $(OBJTS_BONUS) $(LIBFT)
 clean:
 	@${RM} -r $(OBJ_DIR) 
 	@echo "\033[01m\033[31mRemoving objects ...\033[00m"
-	@make -C libft/ fclean -s
+	make -C libft/ fclean -s
 
 fclean:	clean
 	@${RM} ${NAME} ${NAME_BONUS}

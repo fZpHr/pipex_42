@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_argv.c                                       :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 14:57:54 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/17 14:44:15 by hbelle           ###   ########.fr       */
+/*   Created: 2024/01/16 13:58:56 by hbelle            #+#    #+#             */
+/*   Updated: 2024/01/17 16:00:53 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/pipex.h"
 
-int	check_argv(char **argv)
+void	handle_error(t_pipex *p, char *str, char *argv)
 {
-	if (argv[1])
-	{
-		if (access(argv[1], F_OK | R_OK) == 0 || ft_strncmp(argv[1], "here_doc",
-				8) == 0)
-			return (0);
-		else
-			return (2);
-	}
-	return (1);
+	ft_putstr_fd("\033[0;31m", 2);
+	ft_printf("%s", str);
+	if (errno != 0)
+		perror(argv);
+	ft_putstr_fd("\033[0m", 2);
+	free_end(p, 127);
 }

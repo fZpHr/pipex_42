@@ -6,80 +6,117 @@
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:41:24 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/12 18:29:11 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/17 15:31:07 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/pipex.h"
 
-void	child_process(t_pipex *p, int pipe_fd[2], int fd[2], char **envp)
+void	end(t_pipex *p, char *out, char *cmd, char **envp)
 {
-	close(fd[1]);
-	dup2(fd[0], 0);
-	close(fd[0]);
-	close(pipe_fd[0]);
-	dup2(pipe_fd[1], 1);
-	close(pipe_fd[1]);
-	p->tmp = found_cmd(envp, p->cmd1[0]);
-	if (p->tmp)
-		execve(p->tmp, p->cmd1, envp);
-	free_end(p);
+	int	fd;
+	int	exec;
+
+	fd = open(out, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fd == -1)
+		handle_error(p, "Error --> fd outfile", "");
+	p->tmp_end = found_cmd_bonus(p, envp, cmd);
+	if (!p->tmp_end)
+		handle_error(p, "Command not found --> ", cmd);
+	dup2(fd, 1);
+	close(fd);
+	p->cmd1 = ft_split(cmd, ' ');
+	exec = execve(p->tmp_end, p->cmd1, envp);
+	if (exec == -1)
+		handle_error(p, "Error --> execve", cmd);
 }
 
-void	parent_process(t_pipex *p, int pipe_fd[2], int fd[2], char **envp)
+void	begin(t_pipex *p, char *in)
 {
+	int	fd;
+
+	fd = open(in, O_RDONLY);
+	if (fd == -1)
+	{
+		close(fd);
+		handle_error(p, "Error --> fd infile", "");
+	}
+	dup2(fd, 0);
+	close(fd);
+}
+
+void	child_process(t_pipex *p, int fd[2], char **envp, char *cmd)
+{
+	int	exec;
+
+	exec = 0;
+	p->tmp_child = found_cmd_bonus(p, envp, cmd);
+	if (!p->tmp_child)
+	{
+		close(fd[1]);
+		close(fd[0]);
+		handle_error(p, "Command not found --> ", cmd);
+	}
 	close(fd[0]);
 	dup2(fd[1], 1);
 	close(fd[1]);
-	close(pipe_fd[1]);
-	dup2(pipe_fd[0], 0);
-	close(pipe_fd[0]);
+	p->cmd1 = ft_split(cmd, ' ');
+	exec = execve(p->tmp_child, p->cmd1, envp);
+	if (exec == -1)
+		handle_error(p, "Error --> execve", cmd);
 }
 
-void	pipex(t_pipex *p, char *argv, char **envp)
+void	pipex(t_pipex *p, char *cmd, char **envp)
 {
-	int		pipe_fd[2];
-	int		fd[2];
-	pid_t	pid;
+	int	fd[2];
+	int	pid;
 
-	p->cmd1 = ft_split(argv, ' ');
-	fd[0] = open(argv, O_RDONLY);
-	fd[1] = open(argv[p->ac - 1], O_CREAT | O_TRUNC | O_RDWR, 0777);
-	if (fd[0] < 0 || fd[1] < 0)
-		free_end(p);
-	if (pipe(pipe_fd) < 0)
-		free_end(p);
+	if (pipe(fd) == -1)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		handle_error(p, "Error --> pipe", "");
+	}
 	pid = fork();
-	if (pid < 0)
-		free_end(p);
+	if (pid == -1)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		handle_error(p, "Error --> fork", "");
+	}
 	if (pid == 0)
-		child_process(p, pipe_fd, fd, envp);
+		child_process(p, fd, envp, cmd);
 	else
-		parent_process(p, pipe_fd, fd, envp);
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		close(fd[0]);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_pipex	p;
 	int		i;
+	t_pipex	p;
 
-	i = 0;
-	p.ac = argc;
-	if (argc != 5 || check_argv(argv) > 0)
+	init(&p);
+	i = 2;
+	if (argc < 5 || check_argv(argv) > 0)
 	{
-		if (check_argv(argv) == 2 && argc == 2)
-			ft_printf("%s: No such file\n", argv[1]);
-		ft_printf("Usage: ./pipex file1 cmd1 cmd2 file2\n");
+		handle_error(&p,
+			"Usage: ./pipex *existing file* cmd1 cmd2 ... *name the file*\n",
+			argv[1]);
 		return (0);
 	}
-	else
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
-		while (argv[i] <= argc - 3)
-		{
-			pipex(&p, argv[i++], envp);
-			p.cmd2 = p.cmd1;
-		}
-		free_end(&p);
+		i = 3;
+		heredoc(&p, argv[2]);
 	}
+	else
+		begin(&p, argv[1]);
+	while (i < argc - 2)
+		pipex(&p, argv[i++], envp);
+	end(&p, argv[argc - 1], argv[argc - 2], envp);
 	return (0);
 }
