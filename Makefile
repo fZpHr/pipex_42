@@ -77,4 +77,4 @@ fclean:	clean
 
 re:	fclean $(LIBFT) all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
