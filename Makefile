@@ -6,13 +6,13 @@
 #    By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 17:52:23 by hbelle            #+#    #+#              #
-#    Updated: 2024/01/17 16:58:45 by hbelle           ###   ########.fr        #
+#    Updated: 2024/01/17 17:13:55 by hbelle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	pipex
 
-NAME_BONUS	=	pipex_bonus
+NAME_BONUS	=	pipex
 
 SRCS	=	main_manda.c \
 		srcs/utils/free_end.c \

@@ -6,13 +6,11 @@
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:41:24 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/17 16:57:40 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/17 17:28:53 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/pipex.h"
-#include <fcntl.h>
-#include <stdio.h>
 
 void	child_process(t_pipex *p, int pipe_fd[2], int fd[2], char **envp)
 {

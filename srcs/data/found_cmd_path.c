@@ -6,11 +6,11 @@
 /*   By: hbelle <hbelle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:08:12 by hbelle            #+#    #+#             */
-/*   Updated: 2024/01/17 14:51:23 by hbelle           ###   ########.fr       */
+/*   Updated: 2024/01/17 17:28:33 by hbelle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../../includes/pipex.h"
 
 char	*found_path(char **envp)
 {
