@@ -47,7 +47,7 @@ The program will execute the two provided commands (`cmd1` and `cmd2`) sequentia
 
 ## Bonus
 
-For bonus functionality, additional features such as handling multiple pipes or implementing built-in shell commands can be implemented to enhance the functionality and versatility of the program.
+For bonus functionality, additional features such as handling multiple pipes or heredoc.
 
 ## Usage with Bonus Features
 
@@ -61,6 +61,7 @@ Then you can use Pipex with additional features, such as handling multiple pipes
 
 ```bash
 ./pipex file1 "grep keyword" "sort -r" "head -n 10" file2
+./pipex here_doc LIMITER "ls -l" "wc -l" outfile
 ```
 
 In this example, the output of `grep` is piped to `sort`, and then the output of `sort` is piped to `head`, with the final result written to `file2`.
